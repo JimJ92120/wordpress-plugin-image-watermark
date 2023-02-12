@@ -40,7 +40,11 @@ or
 
 ## Development
 
-Project is using `@wordpress/env` for local development and `composer` for `autoload`.
+Project is using:
+
+- `@wordpress/env` for local development
+- `composer` for `autoload` and namespaces
+- `@wordpress/scripts` for assets building and compilation
 
 1. Install `npm` and `composer` dependencies
 
@@ -53,3 +57,17 @@ npm install
 ```sh
 npm run wp-env start
 ```
+
+3. Watch `src/` directory
+
+```sh
+npm run start
+```
+
+4. Build `src/` directory for **production**
+
+```sh
+npm run build
+```
+
+---
