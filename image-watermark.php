@@ -12,6 +12,17 @@
  * Requires PHP:        7.4
  */
 
-add_action('init', function () {
-    // echo "Hello world";
+function image_watermark_register_settings_section() {
+    $section = 'image_watermark_section';
+
+    add_settings_section(  
+        $section,
+        'Image Watermark',
+        '', 
+        'media'
+    );
+}
+
+add_action('admin_init', function () {
+    image_watermark_register_settings_section();
 });
