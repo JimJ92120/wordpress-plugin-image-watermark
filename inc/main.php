@@ -23,6 +23,7 @@ function enqueue_settings_section_assets() {
     ) {
         $assets_file = require_once(IMAGE_WATERMARK_PATH . 'build/admin/index.asset.php');
 
+        wp_enqueue_media();
         wp_enqueue_style("wp-components");
 
         wp_enqueue_script(
