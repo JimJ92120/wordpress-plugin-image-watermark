@@ -23,6 +23,24 @@ function image_watermark_register_settings_section() {
     );
 }
 
+function image_watermark_register_settings_fields() {
+    register_setting(
+        'media',
+        'image_watermark_id',
+        [
+            'type' => 'boolean',
+            'sanitize_callback' => 'intval',
+            'default' => false,
+            'show_in_rest' => true,
+        ]
+    );
+};
+
 add_action('admin_init', function () {
+    image_watermark_register_settings_fields();
     image_watermark_register_settings_section();
+});
+
+add_action('rest_api_init', function () {
+    image_watermark_register_settings_fields();
 });
