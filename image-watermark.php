@@ -21,6 +21,18 @@ function image_watermark_register_settings_section() {
         '', 
         'media'
     );
+
+    add_settings_field(
+        'image_watermark_id',
+        'Watermark image',
+        function () {
+            $value = get_option('image_watermark_id');
+
+            echo '<input type="number" name="image_watermark_id" value="' . $value . '">';
+        },
+        'media',
+        $section
+    ); 
 }
 
 function image_watermark_register_settings_fields() {
