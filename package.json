@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "scripts": {
     "wp-env": "wp-env",
+    "clean": "rimraf build",
+    "start": "npm run clean && wp-scripts start",
+    "build": "npm run clean && wp-scripts build",
     "postinstall": "composer install"
   },
   "devDependencies": {
-    "@wordpress/env": "^5.9.0"
+    "@wordpress/env": "^5.9.0",
+    "@wordpress/scripts": "^25.3.0",
+    "rimraf": "^4.1.2"
   },
   "dependencies": {}
 }
