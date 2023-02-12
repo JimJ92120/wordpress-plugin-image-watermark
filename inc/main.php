@@ -7,21 +7,30 @@ function register_settings_section() {
     add_settings_section(  
         $section,
         'Image Watermark',
-        '', 
+        function () {
+            echo '<div id="image-watermark"></div>';
+        },
         'media'
     );
+}
 
-    add_settings_field(
-        'image_watermark_id',
-        'Watermark image',
-        function () {
-            $value = get_option('image_watermark_id');
+function enqueue_settings_section_assets() {
+    $current_screen = get_current_screen();
+    $options_page_id = 'options-media';
 
-            echo '<input type="number" name="image_watermark_id" value="' . $value . '">';
-        },
-        'media',
-        $section
-    ); 
+    if ($current_screen instanceof \WP_Screen
+        &&  $options_page_id === $current_screen->id
+    ) {
+        $assets_file = require_once(IMAGE_WATERMARK_PATH . 'build/main.asset.php');
+
+        wp_enqueue_script(
+            'image-watermark-settings-js',
+            IMAGE_WATERMARK_URL . 'build/main.js',
+            $assets_file['dependencies'],
+            $assets_file['version'],
+            true
+        );
+    }
 }
 
 function register_options() {
