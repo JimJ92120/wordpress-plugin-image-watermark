@@ -12,6 +12,20 @@
  * Requires PHP:        7.4
  */
 
-add_action('init', function () {
-    // echo "Hello world";
+define('IMAGE_WATERMARK_PATH', plugin_dir_path(__FILE__));
+define('IMAGE_WATERMARK_URL', plugin_dir_url(__FILE__));
+
+require_once IMAGE_WATERMARK_PATH . "vendor/autoload.php";
+
+add_action('admin_init', function () {
+    \ImageWatermark\register_options();
+    \ImageWatermark\register_settings_section();    
+});
+
+add_action('admin_enqueue_scripts', function () {
+    \ImageWatermark\enqueue_settings_section_assets();
+});
+
+add_action('rest_api_init', function () {
+    \ImageWatermark\register_options();
 });

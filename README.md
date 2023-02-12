@@ -15,10 +15,11 @@ Add a watermark to your images in WordPress Media Library.
 
 ### For development
 
-|        |           |
-| ------ | --------- |
-| `npm`  | `>= 6.0`  |
-| `node` | `>= 14.0` |
+|            |           |
+| ---------- | --------- |
+| `npm`      | `>= 6.0`  |
+| `node`     | `>= 14.0` |
+| `composer` | `>= 2.4`  |
 
 or
 
@@ -39,7 +40,13 @@ or
 
 ## Development
 
-1. Install `npm` dependencies
+Project is using:
+
+- `@wordpress/env` for local development
+- `composer` for `autoload` and namespaces
+- `@wordpress/scripts` for assets building and compilation
+
+1. Install `npm` and `composer` dependencies
 
 ```sh
 npm install
@@ -50,3 +57,17 @@ npm install
 ```sh
 npm run wp-env start
 ```
+
+3. Watch `src/` directory
+
+```sh
+npm run start
+```
+
+4. Build `src/` directory for **production**
+
+```sh
+npm run build
+```
+
+---
