@@ -12,47 +12,14 @@
  * Requires PHP:        7.4
  */
 
-function image_watermark_register_settings_section() {
-    $section = 'image_watermark_section';
-
-    add_settings_section(  
-        $section,
-        'Image Watermark',
-        '', 
-        'media'
-    );
-
-    add_settings_field(
-        'image_watermark_id',
-        'Watermark image',
-        function () {
-            $value = get_option('image_watermark_id');
-
-            echo '<input type="number" name="image_watermark_id" value="' . $value . '">';
-        },
-        'media',
-        $section
-    ); 
-}
-
-function image_watermark_register_settings_fields() {
-    register_setting(
-        'media',
-        'image_watermark_id',
-        [
-            'type' => 'boolean',
-            'sanitize_callback' => 'intval',
-            'default' => false,
-            'show_in_rest' => true,
-        ]
-    );
-};
+require_once plugin_dir_path(__FILE__) . "vendor/autoload.php";
 
 add_action('admin_init', function () {
-    image_watermark_register_settings_fields();
-    image_watermark_register_settings_section();
+    \ImageWatermark\register_options();
+    \ImageWatermark\register_settings_section();    
 });
 
 add_action('rest_api_init', function () {
-    image_watermark_register_settings_fields();
+    \ImageWatermark\register_options();
+    
 });
