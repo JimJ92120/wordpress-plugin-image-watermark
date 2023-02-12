@@ -21,11 +21,13 @@ function enqueue_settings_section_assets() {
     if ($current_screen instanceof \WP_Screen
         &&  $options_page_id === $current_screen->id
     ) {
-        $assets_file = require_once(IMAGE_WATERMARK_PATH . 'build/main.asset.php');
+        $assets_file = require_once(IMAGE_WATERMARK_PATH . 'build/admin/index.asset.php');
+
+        wp_enqueue_style("wp-components");
 
         wp_enqueue_script(
             'image-watermark-settings-js',
-            IMAGE_WATERMARK_URL . 'build/main.js',
+            IMAGE_WATERMARK_URL . 'build/admin/index.js',
             $assets_file['dependencies'],
             $assets_file['version'],
             true
@@ -38,7 +40,7 @@ function register_options() {
         'media',
         'image_watermark_id',
         [
-            'type' => 'boolean',
+            'type' => 'number',
             'sanitize_callback' => 'intval',
             'default' => false,
             'show_in_rest' => true,
