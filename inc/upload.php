@@ -17,7 +17,7 @@ function enqueue_upload_assets() {
             'image-watermark-upload-js',
             IMAGE_WATERMARK_URL . 'build/admin/upload.js',
             // $assets_file['dependencies'],
-            ['jquery', 'wp-api', 'media', 'media-editor'],
+            ['jquery', 'wp-api'],
             $assets_file['version'],
             true
         );
