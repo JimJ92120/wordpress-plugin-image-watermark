@@ -1,38 +1,43 @@
-const getImage = (url) => {
-  const $image = new Image();
-
-  $image.src = url;
-
-  return $image;
-};
-
 const generateMarkedImage = async (
-  $originalImage,
-  $watermarkImage,
+  originalImage,
+  watermarkImage,
   extension
 ) => {
   const $canvas = document.createElement("canvas");
   const context = $canvas.getContext("2d");
-
-  const { height, width } = $originalImage;
+  const { height, width } = originalImage;
 
   $canvas.height = height;
   $canvas.width = width;
 
-  context.drawImage($originalImage, 0, 0, width, height);
-  context.drawImage(
-    $watermarkImage,
-    width - $watermarkImage.width * 2,
-    height - $watermarkImage.height * 2,
-    $watermarkImage.width,
-    $watermarkImage.height
+  const loadImages = new Promise((resolve) => {
+    const $image = new Image();
+    $image.onload = () => {
+      context.drawImage($image, 0, 0, width, height);
+
+      resolve();
+    };
+    $image.src = originalImage.url;
+  }).then(
+    () =>
+      new Promise((resolve) => {
+        const $watermark = new Image();
+        $watermark.onload = () => {
+          context.drawImage(
+            $watermark,
+            0,
+            0,
+            watermarkImage.width,
+            watermarkImage.height
+          );
+
+          resolve();
+        };
+        $watermark.src = watermarkImage.url;
+      })
   );
 
-  return await fetch($canvas.toDataURL(`image/${extension}`), {
-    cache: "no-cache",
-  })
-    .then((response) => response.blob())
-    .then((result) => URL.createObjectURL(result));
+  return loadImages.then(() => $canvas.toDataURL(`image/${extension}`));
 };
 
-export { getImage, generateMarkedImage };
+export { generateMarkedImage };
