@@ -7,7 +7,7 @@
       "ImageWatermark\\": "/"
     },
     "files": [
-      "inc/main.php"
+      "inc/options-media.php"
     ]
   },
   "require": {}
