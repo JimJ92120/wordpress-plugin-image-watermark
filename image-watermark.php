@@ -24,6 +24,7 @@ add_action('admin_init', function () {
 
 add_action('admin_enqueue_scripts', function () {
     \ImageWatermark\OptionsMedia\enqueue_settings_section_assets();
+    \ImageWatermark\Upload\enqueue_upload_assets();
 });
 
 add_action('rest_api_init', function () {

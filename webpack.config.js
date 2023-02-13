@@ -9,6 +9,7 @@ module.exports = {
         __dirname,
         "src/admin/options-media/index.js"
       ),
+      "admin/upload": path.resolve(__dirname, "src/admin/upload/index.js"),
     },
   },
 };
