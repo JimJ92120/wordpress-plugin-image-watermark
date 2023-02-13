@@ -28,6 +28,6 @@ add_action('admin_enqueue_scripts', function () {
 });
 
 add_action('rest_api_init', function () {
-    \ImageWatermark\register_options();
+    \ImageWatermark\OptionsMedia\register_options();
 });
 
