@@ -13,13 +13,18 @@ import { generateMarkedImageBlob } from "./watermark";
 
         const $settings = $($dom).find(".settings");
         $settings.prepend(
-          '<button class="image-watermark-btn components-button is-secondary">Add Watermark</button>'
+          `<span class="image-watermark setting">
+            <label class="name">Watermark</label>
+            <span>
+              <button class="image-watermark__btn button button-small">Add Watermark</button>
+            </span>
+          </span>`
         );
 
         return $dom.innerHTML;
       },
       events: {
-        "click .image-watermark-btn": "addWatermark",
+        "click .image-watermark__btn": "addWatermark",
       },
       async addWatermark() {
         const extension = "png";
