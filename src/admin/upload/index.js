@@ -1,5 +1,5 @@
 import { fetchWatermarkImage } from "./model";
-import { generateMarkedImage } from "./controller";
+import { generateMarkedImageBlob } from "./controller";
 
 (($) => {
   wp.media.view.Attachment.Details.TwoColumn =
@@ -22,26 +22,27 @@ import { generateMarkedImage } from "./controller";
         "click .image-watermark-btn": "addWatermark",
       },
       async addWatermark() {
-        console.log("clicked");
+        const watermakeImage = await fetchWatermarkImage().then((response) => {
+          const { thumbnail } = response.media_details.sizes;
 
-        const watermakeImage = await fetchWatermarkImage();
+          return {
+            url: thumbnail.source_url,
+            height: thumbnail.height,
+            width: thumbnail.width,
+          };
+        });
         const { attributes: image } = this.model;
 
-        const markedImage = await generateMarkedImage(
-          {
-            url: image.originalImageURL ?? image.url,
-            height: image.height,
-            width: image.width,
-          },
-          {
-            url: watermakeImage.media_details.sizes.thumbnail.source_url,
-            height: watermakeImage.media_details.sizes.thumbnail.height,
-            width: watermakeImage.media_details.sizes.thumbnail.width,
-          },
+        const markedImageBlob = await generateMarkedImageBlob(
+          image.originalImageURL ?? image.url,
+          watermakeImage.url,
+          [image.width, image.height],
+          [watermakeImage.width, watermakeImage.height],
           "png"
         );
 
-        document.querySelector(".details-image").src = markedImage;
+        document.querySelector(".details-image").src =
+          URL.createObjectURL(markedImageBlob);
       },
     });
 })(jQuery);
