@@ -4,7 +4,7 @@ import { store } from "@wordpress/core-data";
 import { MediaUpload } from "@wordpress/media-utils";
 import { Button } from "@wordpress/components";
 
-const OPTION_KEY = "image_watermark_id";
+const OPTION_KEY = "image_watermark_settings";
 
 export default function ImageUpload() {
   const [imageId, setImageId] = useState(null);
@@ -13,7 +13,11 @@ export default function ImageUpload() {
     const result = select("core").getEntityRecord("root", "site");
 
     if (result && !imageId) {
-      setImageId(result[OPTION_KEY]);
+      const settings = result[OPTION_KEY];
+
+      if (settings && settings.image_id) {
+        setImageId(settings.image_id);
+      }
     }
   });
   const image = useSelect((select) => select("core").getMedia(imageId));
@@ -22,7 +26,7 @@ export default function ImageUpload() {
     <div>
       <input
         label="Watermark Image"
-        name={OPTION_KEY}
+        name={OPTION_KEY + "[image_id]"}
         type="number"
         value={imageId}
         readonly

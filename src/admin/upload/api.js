@@ -28,7 +28,7 @@ const fetchImage = (imageId) => {
 const fetchWatermarkImage = async () => {
   const settings = await getSettings();
 
-  return fetchImage(settings.image_watermark_id);
+  return fetchImage(settings.image_watermark_settings.image_id);
 };
 
 // replace with wp.api.models.Media.save()
