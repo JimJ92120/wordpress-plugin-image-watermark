@@ -1,4 +1,4 @@
-import { fetchWatermarkImage, saveImage } from "./model";
+import { fetchWatermarkImage, saveImage } from "./api";
 import { generateMarkedImageBlob } from "./watermark";
 
 (($) => {
