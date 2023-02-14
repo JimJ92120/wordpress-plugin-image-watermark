@@ -1,4 +1,4 @@
-import { Fragment, useState } from "@wordpress/element";
+import { useState } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
 import { store } from "@wordpress/core-data";
 
@@ -19,19 +19,35 @@ export default function App() {
   });
 
   return (
-    <div>
+    <table className="form-table">
       {settings && (
-        <Fragment>
-          <ImageUpload
-            imageId={settings.image_id ?? null}
-            fieldKey={OPTION_KEY + "[image_id]"}
-          />
-          <PositionSelect
-            position={settings.position ?? null}
-            fieldKey={OPTION_KEY + "[position]"}
-          />
-        </Fragment>
+        <tbody>
+          <tr>
+            <th>Watermark Image</th>
+            <td
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "fit-content",
+              }}
+            >
+              <ImageUpload
+                imageId={settings.image_id ?? null}
+                fieldKey={OPTION_KEY + "[image_id]"}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Position</th>
+            <td>
+              <PositionSelect
+                position={settings.position ?? null}
+                fieldKey={OPTION_KEY + "[position]"}
+              />
+            </td>
+          </tr>
+        </tbody>
       )}
-    </div>
+    </table>
   );
 }

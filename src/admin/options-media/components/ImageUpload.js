@@ -1,4 +1,4 @@
-import { useState } from "@wordpress/element";
+import { useState, Fragment } from "@wordpress/element";
 import { withSelect } from "@wordpress/data";
 import { store } from "@wordpress/core-data";
 import { MediaUpload } from "@wordpress/media-utils";
@@ -12,7 +12,7 @@ function ImageUpload({ fieldKey, image }) {
   }
 
   return (
-    <div>
+    <Fragment>
       <input
         label="Watermark Image"
         name={fieldKey}
@@ -26,15 +26,21 @@ function ImageUpload({ fieldKey, image }) {
           src={selectedImage.url}
           alt={selectedImage.alt}
           title={selectedImage.title}
+          height={selectedImage.height}
+          width={selectedImage.width}
         />
       )}
       <MediaUpload
         onSelect={({ id, alt, title, sizes }) => {
+          const { thumbnail } = sizes;
+
           setSelectedImage({
             id,
             alt,
             title,
-            url: sizes.thumbnail.url,
+            url: thumbnail.url,
+            height: thumbnail.height,
+            width: thumbnail.width,
           });
         }}
         value={selectedImage ? selectedImage.id : null}
@@ -44,7 +50,7 @@ function ImageUpload({ fieldKey, image }) {
           </Button>
         )}
       />
-    </div>
+    </Fragment>
   );
 }
 
@@ -61,6 +67,8 @@ export default withSelect((select, { imageId }) => {
         alt: alt_text,
         title: title.rendered,
         url: thumbnail.source_url,
+        height: thumbnail.height,
+        width: thumbnail.width,
       },
     };
   }
