@@ -41,6 +41,7 @@ import { generateMarkedImageBlob } from "./watermark";
           watermakeImage.url,
           [image.width, image.height],
           [watermakeImage.width, watermakeImage.height],
+          Number(image_watermark_settings.position),
           extension
         );
 
