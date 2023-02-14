@@ -43,4 +43,5 @@ const saveImage = (imageBlob, imageName, extension) => {
     body: imageBlob,
   });
 };
+
 export { fetchWatermarkImage, saveImage };
