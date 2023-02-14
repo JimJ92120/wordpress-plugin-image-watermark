@@ -1,8 +1,9 @@
-import { useState } from "@wordpress/element";
+import { Fragment, useState } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
 import { store } from "@wordpress/core-data";
 
 import ImageUpload from "./components/ImageUpload";
+import PositionSelect from "./components/PositionSelect";
 
 const OPTION_KEY = "image_watermark_settings";
 
@@ -19,11 +20,17 @@ export default function App() {
 
   return (
     <div>
-      {settings && settings.image_id && (
-        <ImageUpload
-          imageId={settings.image_id}
-          fieldKey={OPTION_KEY + "[image_id]"}
-        />
+      {settings && (
+        <Fragment>
+          <ImageUpload
+            imageId={settings.image_id ?? null}
+            fieldKey={OPTION_KEY + "[image_id]"}
+          />
+          <PositionSelect
+            position={settings.position ?? null}
+            fieldKey={OPTION_KEY + "[position]"}
+          />
+        </Fragment>
       )}
     </div>
   );
