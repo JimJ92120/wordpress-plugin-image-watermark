@@ -1,4 +1,4 @@
-import { fetchWatermarkImage } from "./model";
+import { fetchWatermarkImage, saveImage } from "./model";
 import { generateMarkedImageBlob } from "./controller";
 
 (($) => {
@@ -22,6 +22,7 @@ import { generateMarkedImageBlob } from "./controller";
         "click .image-watermark-btn": "addWatermark",
       },
       async addWatermark() {
+        const extension = "png";
         const watermakeImage = await fetchWatermarkImage().then((response) => {
           const { thumbnail } = response.media_details.sizes;
 
@@ -32,17 +33,22 @@ import { generateMarkedImageBlob } from "./controller";
           };
         });
         const { attributes: image } = this.model;
-
         const markedImageBlob = await generateMarkedImageBlob(
           image.originalImageURL ?? image.url,
           watermakeImage.url,
           [image.width, image.height],
           [watermakeImage.width, watermakeImage.height],
-          "png"
+          extension
         );
 
-        document.querySelector(".details-image").src =
-          URL.createObjectURL(markedImageBlob);
+        saveImage(markedImageBlob, `${image.title} (marked)`, "png")
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(
+              `${result.title.rendered} created. See at ${result.source_url}`
+            );
+          })
+          .catch((error) => console.error(error));
       },
     });
 })(jQuery);

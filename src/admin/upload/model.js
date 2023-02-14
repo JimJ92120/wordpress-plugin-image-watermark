@@ -31,4 +31,16 @@ const fetchWatermarkImage = async () => {
   return fetchImage(settings.image_watermark_id);
 };
 
-export { fetchWatermarkImage };
+// replace with wp.api.models.Media.save()
+const saveImage = (imageBlob, imageName, extension) => {
+  return fetch(wp.api.utils.getRootUrl() + "/wp-json/wp/v2/media", {
+    method: "POST",
+    headers: {
+      "X-WP-Nonce": wpApiSettings.nonce,
+      "Content-Disposition": `attachment; filename="${imageName}.${extension}"`,
+      "Content-type": `image/${extension}`,
+    },
+    body: imageBlob,
+  });
+};
+export { fetchWatermarkImage, saveImage };
