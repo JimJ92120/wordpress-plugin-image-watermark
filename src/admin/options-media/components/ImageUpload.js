@@ -1,43 +1,43 @@
 import { useState } from "@wordpress/element";
-import { useSelect } from "@wordpress/data";
+import { withSelect } from "@wordpress/data";
 import { store } from "@wordpress/core-data";
 import { MediaUpload } from "@wordpress/media-utils";
 import { Button } from "@wordpress/components";
 
-const OPTION_KEY = "image_watermark_id";
+function ImageUpload({ fieldKey, image }) {
+  const [selectedImage, setSelectedImage] = useState(null);
 
-export default function ImageUpload() {
-  const [imageId, setImageId] = useState(null);
-
-  useSelect((select) => {
-    const result = select("core").getEntityRecord("root", "site");
-
-    if (result && !imageId) {
-      setImageId(result[OPTION_KEY]);
-    }
-  });
-  const image = useSelect((select) => select("core").getMedia(imageId));
+  if (image && !selectedImage) {
+    setSelectedImage(image);
+  }
 
   return (
     <div>
       <input
         label="Watermark Image"
-        name={OPTION_KEY}
+        name={fieldKey}
         type="number"
-        value={imageId}
+        value={selectedImage ? selectedImage.id : null}
         readonly
         hidden
       />
-      {image && (
+      {selectedImage && (
         <img
-          src={image.media_details.sizes.medium.source_url}
-          alt={image.alt_text}
-          title={image.title}
+          src={selectedImage.url}
+          alt={selectedImage.alt}
+          title={selectedImage.title}
         />
       )}
       <MediaUpload
-        onSelect={({ id }) => setImageId(id)}
-        value={imageId}
+        onSelect={({ id, alt, title, sizes }) => {
+          setSelectedImage({
+            id,
+            alt,
+            title,
+            url: sizes.thumbnail.url,
+          });
+        }}
+        value={selectedImage ? selectedImage.id : null}
         render={({ open }) => (
           <Button variant="secondary" onClick={open}>
             Open Media Library
@@ -47,3 +47,25 @@ export default function ImageUpload() {
     </div>
   );
 }
+
+export default withSelect((select, { imageId }) => {
+  const image = select("core").getMedia(imageId);
+
+  if (image) {
+    const { id, alt_text, title, media_details } = image;
+    const { thumbnail } = media_details.sizes;
+
+    return {
+      image: {
+        id,
+        alt: alt_text,
+        title: title.rendered,
+        url: thumbnail.source_url,
+      },
+    };
+  }
+
+  return {
+    image: null,
+  };
+})(ImageUpload);

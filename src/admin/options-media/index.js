@@ -1,9 +1,9 @@
 import { render } from "@wordpress/element";
 
-import ImageUpload from "./components/ImageUpload";
+import App from "./App";
 
 addEventListener("DOMContentLoaded", () => {
   const $fieldContainer = document.getElementById("image-watermark");
 
-  render(<ImageUpload />, $fieldContainer);
+  render(<App />, $fieldContainer);
 });

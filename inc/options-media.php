@@ -39,12 +39,23 @@ function enqueue_settings_section_assets() {
 function register_options() {
     register_setting(
         'media',
-        'image_watermark_id',
+        'image_watermark_settings',
         [
-            'type' => 'number',
-            'sanitize_callback' => 'intval',
-            'default' => false,
-            'show_in_rest' => true,
-        ]
+            'type' => 'object',
+            // 'sanitize_callback' => 'intval',
+            'show_in_rest' => [
+                'schema' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'image_id' => 'number',
+                        'position' => 'number',
+                    ],
+                ],
+            ],
+            'default' => [
+                'image_id' => null,
+                'position' => null,
+            ],
+        ],
     );
 };
