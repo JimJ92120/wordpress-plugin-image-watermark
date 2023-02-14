@@ -41,7 +41,7 @@ import { generateMarkedImageBlob } from "./watermark";
           extension
         );
 
-        saveImage(markedImageBlob, `${image.title} (marked)`, "png")
+        saveImage(markedImageBlob, `${image.title} (marked)`, extension)
           .then((response) => response.json())
           .then((result) => {
             console.log(
