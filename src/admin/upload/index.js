@@ -1,5 +1,5 @@
 import { fetchWatermarkImage, saveImage } from "./model";
-import { generateMarkedImageBlob } from "./controller";
+import { generateMarkedImageBlob } from "./watermark";
 
 (($) => {
   wp.media.view.Attachment.Details.TwoColumn =
