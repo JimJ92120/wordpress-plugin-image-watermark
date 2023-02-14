@@ -13,7 +13,7 @@ import { generateMarkedImageBlob } from "./watermark";
 
         const $settings = $($dom).find(".settings");
         $settings.prepend(
-          '<button class="image-watermark-btn">Add Watermark</button>'
+          '<button class="image-watermark-btn components-button is-secondary">Add Watermark</button>'
         );
 
         return $dom.innerHTML;
