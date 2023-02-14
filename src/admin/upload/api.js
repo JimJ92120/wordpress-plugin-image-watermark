@@ -2,7 +2,7 @@ const SettingsModel = wp.api.WPApiBaseModel.extend({
   url: wpApiSettings.root + "wp/v2/settings",
 });
 
-const getSettings = async () => {
+const fetchSettings = async () => {
   const settings = new SettingsModel();
   await settings
     .fetch({
@@ -17,18 +17,12 @@ const getSettings = async () => {
   return settings.attributes;
 };
 
-const fetchImage = (imageId) => {
+const fetchImageById = (imageId) => {
   const model = new wp.api.models.Media({
     id: imageId,
   });
 
   return model.fetch();
-};
-
-const fetchWatermarkImage = async () => {
-  const settings = await getSettings();
-
-  return fetchImage(settings.image_watermark_settings.image_id);
 };
 
 // replace with wp.api.models.Media.save()
@@ -44,4 +38,4 @@ const saveImage = (imageBlob, imageName, extension) => {
   });
 };
 
-export { fetchWatermarkImage, saveImage };
+export { fetchImageById, saveImage, fetchSettings };

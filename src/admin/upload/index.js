@@ -1,4 +1,4 @@
-import { fetchWatermarkImage, saveImage } from "./api";
+import { fetchImageById, saveImage, fetchSettings } from "./api";
 import { generateMarkedImageBlob } from "./watermark";
 
 (($) => {
@@ -23,7 +23,10 @@ import { generateMarkedImageBlob } from "./watermark";
       },
       async addWatermark() {
         const extension = "png";
-        const watermakeImage = await fetchWatermarkImage().then((response) => {
+        const { image_watermark_settings } = await fetchSettings();
+        const watermakeImage = await fetchImageById(
+          image_watermark_settings.image_id
+        ).then((response) => {
           const { thumbnail } = response.media_details.sizes;
 
           return {
