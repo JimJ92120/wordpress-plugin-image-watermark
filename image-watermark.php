@@ -18,14 +18,16 @@ define('IMAGE_WATERMARK_URL', plugin_dir_url(__FILE__));
 require_once IMAGE_WATERMARK_PATH . "vendor/autoload.php";
 
 add_action('admin_init', function () {
-    \ImageWatermark\register_options();
-    \ImageWatermark\register_settings_section();    
+    \ImageWatermark\OptionsMedia\register_options();
+    \ImageWatermark\OptionsMedia\register_settings_section();    
 });
 
 add_action('admin_enqueue_scripts', function () {
-    \ImageWatermark\enqueue_settings_section_assets();
+    \ImageWatermark\OptionsMedia\enqueue_settings_section_assets();
+    \ImageWatermark\Upload\enqueue_upload_assets();
 });
 
 add_action('rest_api_init', function () {
-    \ImageWatermark\register_options();
+    \ImageWatermark\OptionsMedia\register_options();
 });
+
