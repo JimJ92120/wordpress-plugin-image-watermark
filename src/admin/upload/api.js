@@ -35,7 +35,15 @@ const saveImage = (imageBlob, imageName, extension) => {
       "Content-type": `image/${extension}`,
     },
     body: imageBlob,
-  }).then((response) => response.json());
+  })
+    .then((response) => {
+      if (201 === response.status) {
+        return response.json();
+      }
+
+      return false;
+    })
+    .catch((error) => console.error(error));
 };
 
 export { fetchImageById, fetchSettings, saveImage };
