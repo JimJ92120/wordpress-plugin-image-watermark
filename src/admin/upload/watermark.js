@@ -86,7 +86,7 @@ const generateMarkedImageCanvas = async (
   const $canvas = document.createElement("canvas");
   const $image = await getImageAsync(imageUrl);
   const $watermark = await getImageAsync(watermarkUrl);
-  const position = getTranslatedPosition(
+  const translatedWatermarkPosition = getTranslatedPosition(
     watermarkPosition,
     imageSize,
     watermarkSize
@@ -99,8 +99,8 @@ const generateMarkedImageCanvas = async (
   context.drawImage($image, 0, 0, imageSize[0], imageSize[1]);
   context.drawImage(
     $watermark,
-    position[0],
-    position[1],
+    translatedWatermarkPosition[0],
+    translatedWatermarkPosition[1],
     watermarkSize[0],
     watermarkSize[1]
   );
@@ -113,13 +113,15 @@ const getMarkedImageBlob = async (
   watermarkUrl,
   imageSize,
   watermarkSize,
+  watermarkPosition,
   extension
 ) => {
   const $canvas = await generateMarkedImageCanvas(
     imageUrl,
     watermarkUrl,
     imageSize,
-    watermarkSize
+    watermarkSize,
+    watermarkPosition
   );
 
   return new Promise((resolve) => {
