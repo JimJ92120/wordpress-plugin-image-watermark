@@ -66,7 +66,7 @@ const POSITIONS = {
     translate: (canvasSize, imageSize) => [0, canvasSize[1] - imageSize[1]],
   },
 };
-const getPosition = (position, canvasSize, imageSize) => {
+const getTranslatedPosition = (position, canvasSize, imageSize) => {
   const matchKey = Object.keys(POSITIONS).find(
     (positionKey) => POSITIONS[positionKey].value === position
   );
@@ -86,7 +86,11 @@ const generateMarkedImageCanvas = async (
   const $canvas = document.createElement("canvas");
   const $image = await getImageAsync(imageUrl);
   const $watermark = await getImageAsync(watermarkUrl);
-  const position = getPosition(watermarkPosition, imageSize, watermarkSize);
+  const position = getTranslatedPosition(
+    watermarkPosition,
+    imageSize,
+    watermarkSize
+  );
   const context = $canvas.getContext("2d");
 
   $canvas.width = imageSize[0];
