@@ -1,9 +1,13 @@
-const getImage = (src) => {
+const getImageAsync = (src) => {
   const image = new Image();
 
   image.src = src;
 
-  return image;
+  return new Promise((resolve) => {
+    image.onload = () => {
+      resolve(image);
+    };
+  }).then((image) => image);
 };
 
 const POSITIONS = {
@@ -81,30 +85,24 @@ const generateMarkedImage = async (
   extension
 ) => {
   const $canvas = document.createElement("canvas");
-  const $image = getImage(imageUrl);
-  const $watermark = getImage(watermarkUrl);
+  const $image = await getImageAsync(imageUrl);
+  const $watermark = await getImageAsync(watermarkUrl);
   const position = getPosition(watermarkPosition, imageSize, watermarkSize);
   const context = $canvas.getContext("2d");
 
   $canvas.width = imageSize[0];
   $canvas.height = imageSize[1];
 
-  return new Promise((resolve) => {
-    $image.onload = () => {
-      $watermark.onload = () => {
-        context.drawImage($image, 0, 0, imageSize[0], imageSize[1]);
-        context.drawImage(
-          $watermark,
-          position[0],
-          position[1],
-          watermarkSize[0],
-          watermarkSize[1]
-        );
+  context.drawImage($image, 0, 0, imageSize[0], imageSize[1]);
+  context.drawImage(
+    $watermark,
+    position[0],
+    position[1],
+    watermarkSize[0],
+    watermarkSize[1]
+  );
 
-        resolve();
-      };
-    };
-  }).then(() => $canvas.toDataURL(`image/${extension}`));
+  return $canvas.toDataURL(`image/${extension}`);
 };
 
 const generateMarkedImageBlob = async (
