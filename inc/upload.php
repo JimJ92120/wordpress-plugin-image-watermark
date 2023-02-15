@@ -9,15 +9,14 @@ function enqueue_upload_assets() {
     if ($current_screen instanceof \WP_Screen
         &&  $options_page_id === $current_screen->id
     ) {
-        $assets_file = require_once(IMAGE_WATERMARK_PATH . 'build/admin/upload.asset.php');
+        $assets_file = require_once(IMAGE_WATERMARK_PATH . 'build/admin/upload/index.asset.php');
 
-        wp_enqueue_style("wp-components");
         wp_enqueue_media();
         wp_enqueue_script(
             'image-watermark-upload-js',
-            IMAGE_WATERMARK_URL . 'build/admin/upload.js',
-            // $assets_file['dependencies'],
-            ['jquery', 'wp-api'],
+            IMAGE_WATERMARK_URL . 'build/admin/upload/index.js',
+            // ,
+            array_merge($assets_file['dependencies'], ['jquery', 'wp-api']),
             $assets_file['version'],
             true
         );
