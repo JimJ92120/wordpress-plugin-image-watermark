@@ -5,11 +5,14 @@ module.exports = {
   ...WordPressConfig,
   ...{
     entry: {
-      "admin/options-media": path.resolve(
+      "admin/options-media/index": path.resolve(
         __dirname,
         "src/admin/options-media/index.js"
       ),
-      "admin/upload": path.resolve(__dirname, "src/admin/upload/index.js"),
+      "admin/upload/index": path.resolve(
+        __dirname,
+        "src/admin/upload/index.js"
+      ),
     },
   },
 };
