@@ -21,14 +21,14 @@ function enqueue_settings_section_assets() {
     if ($current_screen instanceof \WP_Screen
         &&  $options_page_id === $current_screen->id
     ) {
-        $assets_file = require_once(IMAGE_WATERMARK_PATH . 'build/admin/options-media.asset.php');
+        $assets_file = require_once(IMAGE_WATERMARK_PATH . 'build/admin/options-media/index.asset.php');
 
         wp_enqueue_media();
         wp_enqueue_style("wp-components");
 
         wp_enqueue_script(
             'image-watermark-options-js',
-            IMAGE_WATERMARK_URL . 'build/admin/options-media.js',
+            IMAGE_WATERMARK_URL . 'build/admin/options-media/index.js',
             $assets_file['dependencies'],
             $assets_file['version'],
             true
