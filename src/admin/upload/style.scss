@@ -3,6 +3,7 @@ $spinner-position-offset: calc(50% - $spinner-size / 2);
 
 .image-watermark {
   &__loader {
+    display: none;
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;

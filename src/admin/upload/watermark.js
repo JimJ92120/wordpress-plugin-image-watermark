@@ -1,3 +1,5 @@
+import { fetchImageById, fetchSettings, saveImage } from "./api";
+
 const getImageAsync = (src) => {
   const image = new Image();
 
@@ -131,4 +133,43 @@ const getMarkedImageBlob = async (
   }).then((blob) => blob);
 };
 
-export { getMarkedImageBlob };
+const fetchWatermarkImage = async () => {
+  const { image_watermark_settings } = await fetchSettings();
+  const { image_id, position } = image_watermark_settings;
+
+  return fetchImageById(image_id).then((response) => {
+    const { thumbnail } = response.media_details.sizes;
+
+    return {
+      image: {
+        url: thumbnail.source_url,
+        height: thumbnail.height,
+        width: thumbnail.width,
+      },
+      position: Number(position),
+    };
+  });
+};
+
+const generateAndSaveMarkedImage = async (image, extension) => {
+  const { image: watermakeImage, position } = await fetchWatermarkImage();
+  const markedImageBlob = await getMarkedImageBlob(
+    image.url,
+    watermakeImage.url,
+    [image.width, image.height],
+    [watermakeImage.width, watermakeImage.height],
+    position,
+    extension
+  );
+
+  saveImage(markedImageBlob, `${image.title} (marked)`, extension)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(
+        `${result.title.rendered} created. See at ${result.source_url}`
+      );
+    })
+    .catch((error) => console.error(error));
+};
+
+export { getMarkedImageBlob, generateAndSaveMarkedImage };

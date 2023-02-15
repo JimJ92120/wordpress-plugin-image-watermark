@@ -38,4 +38,4 @@ const saveImage = (imageBlob, imageName, extension) => {
   });
 };
 
-export { fetchImageById, saveImage, fetchSettings };
+export { fetchImageById, fetchSettings, saveImage };
