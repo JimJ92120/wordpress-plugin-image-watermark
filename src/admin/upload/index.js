@@ -45,9 +45,11 @@ wp.media.view.Attachment.Details.TwoColumn =
         "png"
       ).then((result) => {
         if (result) {
-          console.log(
-            `${result.title.rendered} created. See at ${result.source_url}`
-          );
+          if (confirm("New image created. See new image.")) {
+            window.open(result.source_url, "_blank");
+          }
+        } else {
+          alert("Encountered some issues. Image has not been created.");
         }
       });
 
