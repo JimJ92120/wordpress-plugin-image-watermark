@@ -1,6 +1,8 @@
 import { fetchImageById, saveImage, fetchSettings } from "./api";
 import { getMarkedImageBlob } from "./watermark";
 
+import "./style.scss";
+
 wp.media.view.Attachment.Details.TwoColumn =
   wp.media.view.Attachment.Details.TwoColumn.extend({
     template(view) {
@@ -14,6 +16,9 @@ wp.media.view.Attachment.Details.TwoColumn =
         `<span class="image-watermark setting">
           <label class="name">Watermark</label>
           <button class="image-watermark__btn button button-small">Add Watermark</button>
+          <div class="image-watermark__loader">
+            <div class="image-watermark__loader-spinner"></div>
+          </div>
         </span>`
       );
 

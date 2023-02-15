@@ -20,5 +20,11 @@ function enqueue_upload_assets() {
             $assets_file['version'],
             true
         );
+        wp_enqueue_style(
+            'image-watermark-upload-css',
+            IMAGE_WATERMARK_URL . 'build/admin/upload/style-index.css',
+            [],
+            $assets_file['version']
+        );
     }
 }
