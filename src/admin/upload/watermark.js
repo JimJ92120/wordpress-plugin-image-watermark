@@ -76,13 +76,12 @@ const getPosition = (position, canvasSize, imageSize) => {
     : [0, 0];
 };
 
-const generateMarkedImage = async (
+const generateMarkedImageCanvas = async (
   imageUrl,
   watermarkUrl,
   imageSize,
   watermarkSize,
-  watermarkPosition,
-  extension
+  watermarkPosition
 ) => {
   const $canvas = document.createElement("canvas");
   const $image = await getImageAsync(imageUrl);
@@ -102,24 +101,28 @@ const generateMarkedImage = async (
     watermarkSize[1]
   );
 
-  return $canvas.toDataURL(`image/${extension}`);
+  return $canvas;
 };
 
-const generateMarkedImageBlob = async (
+const getMarkedImageBlob = async (
   imageUrl,
   watermarkUrl,
   imageSize,
   watermarkSize,
   extension
-) =>
-  fetch(
-    await generateMarkedImage(
-      imageUrl,
-      watermarkUrl,
-      imageSize,
-      watermarkSize,
-      extension
-    )
-  ).then((response) => response.blob());
+) => {
+  const $canvas = await generateMarkedImageCanvas(
+    imageUrl,
+    watermarkUrl,
+    imageSize,
+    watermarkSize
+  );
 
-export { generateMarkedImageBlob };
+  return new Promise((resolve) => {
+    $canvas.toBlob(async (blob) => {
+      resolve(blob);
+    }, `image/${extension}`);
+  }).then((blob) => blob);
+};
+
+export { getMarkedImageBlob };

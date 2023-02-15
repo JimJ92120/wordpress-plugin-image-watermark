@@ -1,5 +1,5 @@
 import { fetchImageById, saveImage, fetchSettings } from "./api";
-import { generateMarkedImageBlob } from "./watermark";
+import { getMarkedImageBlob } from "./watermark";
 
 (($) => {
   wp.media.view.Attachment.Details.TwoColumn =
@@ -39,7 +39,7 @@ import { generateMarkedImageBlob } from "./watermark";
           };
         });
         const { attributes: image } = this.model;
-        const markedImageBlob = await generateMarkedImageBlob(
+        const markedImageBlob = await getMarkedImageBlob(
           image.originalImageURL ?? image.url,
           watermakeImage.url,
           [image.width, image.height],
