@@ -53,14 +53,7 @@ const generateAndSaveMarkedImage = async (image, extension) => {
     extension
   );
 
-  saveImage(markedImageBlob, `${image.title} (marked)`, extension)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(
-        `${result.title.rendered} created. See at ${result.source_url}`
-      );
-    })
-    .catch((error) => console.error(error));
+  return saveImage(markedImageBlob, `${image.title} (marked)`, extension);
 };
 
 export { generateAndSaveMarkedImage };

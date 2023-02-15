@@ -12,6 +12,12 @@ $spinner-position-offset: calc(50% - $spinner-size / 2);
     top: 0;
     left: 0;
 
+    &--active {
+      .image-watermark__loader-spinner {
+        animation: spin 2s linear infinite;
+      }
+    }
+
     // https://www.w3schools.com/howto/howto_css_loader.asp
     &-spinner {
       border: 16px solid #f3f3f3;
@@ -24,8 +30,6 @@ $spinner-position-offset: calc(50% - $spinner-size / 2);
       left: $spinner-position-offset;
       transform: translateX(calc($spinner-position-offset * -1))
         translateY(calc($spinner-position-offset * -1));
-
-      animation: spin 2s linear infinite;
     }
   }
 }

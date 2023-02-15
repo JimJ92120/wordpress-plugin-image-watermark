@@ -29,9 +29,13 @@ wp.media.view.Attachment.Details.TwoColumn =
     },
 
     async addWatermark() {
+      const $loader = document.querySelector(".image-watermark__loader");
+      $loader.classList.add("image-watermark__loader--active");
+      $loader.style.display = "block";
+
       const { attributes: image } = this.model;
 
-      generateAndSaveMarkedImage(
+      await generateAndSaveMarkedImage(
         {
           url: image.originalImageURL ?? image.url,
           height: image.height,
@@ -39,6 +43,14 @@ wp.media.view.Attachment.Details.TwoColumn =
           title: image.title,
         },
         "png"
-      );
+      ).then((result) => {
+        if (result) {
+          console.log(
+            `${result.title.rendered} created. See at ${result.source_url}`
+          );
+        }
+      });
+
+      $loader.remove();
     },
   });
