@@ -11,7 +11,7 @@ const AttachmentDetailsView = () =>
       "click .image-watermark__btn": "addWatermark",
     },
 
-    _watermarTemplate: `<span class="image-watermark setting">
+    _watermarkTemplate: `<span class="image-watermark setting">
       <label class="name">Watermark</label>
       <button class="image-watermark__btn button button-small">Add Watermark</button>
       <div class="image-watermark__loader">
@@ -34,7 +34,7 @@ const AttachmentDetailsView = () =>
     _appendImageWatermarkButton($dom) {
       const $settings = $dom.querySelector(".settings");
 
-      $settings.insertAdjacentHTML("afterbegin", this._watermarTemplate);
+      $settings.insertAdjacentHTML("afterbegin", this._watermarkTemplate);
     },
 
     _showResult(result) {
