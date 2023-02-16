@@ -30,4 +30,3 @@ add_action('admin_enqueue_scripts', function () {
 add_action('rest_api_init', function () {
     \ImageWatermark\OptionsMedia\register_options();
 });
-
