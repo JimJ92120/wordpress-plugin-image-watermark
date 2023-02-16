@@ -1,6 +1,5 @@
-import ToolbarView from "./components/ToolbarView";
-
 import WatermarkSettingsView from "./components/WatermarkSettingsView";
+import AddWatermarkButtonView from "./components/AddWatermarkButtonView";
 
 const { TwoColumn } = wp.media.view.Attachment.Details;
 wp.media.view.Attachment.Details.TwoColumn = TwoColumn.extend({
@@ -21,4 +20,21 @@ wp.media.view.Attachment.Details.TwoColumn = TwoColumn.extend({
   },
 });
 
-wp.media.view.Toolbar = ToolbarView();
+const { Toolbar } = wp.media.view;
+wp.media.view.Toolbar = Toolbar.extend({
+  _watermarkButtonView: new AddWatermarkButtonView(),
+  _deleteButtonClassName: "delete-selected-button",
+
+  initialize() {
+    Toolbar.prototype.initialize.apply(this, arguments);
+
+    this.controller.on("select:activate", () => {
+      this.el
+        .querySelector(`.${this._deleteButtonClassName}`)
+        .before(this._watermarkButtonView.el);
+    });
+    this.controller.on("select:deactivate", () => {
+      this._watermarkButtonView.el.remove();
+    });
+  },
+});
