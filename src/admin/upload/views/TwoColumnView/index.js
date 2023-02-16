@@ -1,4 +1,4 @@
-import WatermarkSettingsView from "../components/WatermarkSettingsView";
+import WatermarkSettingsView from "./WatermarkSettingsView";
 
 // https://atimmer.github.io/wordpress-jsdoc/media_views_attachment_details-two-column.js.html
 const { TwoColumn } = wp.media.view.Attachment.Details;

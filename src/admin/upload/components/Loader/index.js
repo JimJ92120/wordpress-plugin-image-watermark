@@ -1,6 +1,6 @@
 import "./style.scss";
 
-const LoaderView = _.extend(
+const Loader = _.extend(
   Backbone.View.extend({
     className: "loader",
     tagName: "span",
@@ -34,4 +34,4 @@ const LoaderView = _.extend(
   Backbone.Events
 );
 
-export default LoaderView;
+export default Loader;
