@@ -4,7 +4,7 @@ import { generateAndSaveMarkedImage } from "./watermark";
 // // https://atimmer.github.io/wordpress-jsdoc/media_views_button_select-mode-toggle.js.html
 const { Button } = wp.media.view;
 
-const AddWatermarkButtonView = _.extend(
+const AddWatermarkButton = _.extend(
   Button.extend({
     initialize() {
       _.defaults(this.options, {
@@ -31,6 +31,7 @@ const AddWatermarkButtonView = _.extend(
     },
 
     async click() {
+      console.log("test");
       if (this.image) {
         this.trigger("loadingStart");
 
@@ -44,4 +45,4 @@ const AddWatermarkButtonView = _.extend(
   Backbone.Events
 );
 
-export default AddWatermarkButtonView;
+export default AddWatermarkButton;

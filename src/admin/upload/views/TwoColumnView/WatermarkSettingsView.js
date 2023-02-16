@@ -1,17 +1,17 @@
-import LoaderView from "./LoaderView";
-import AddWatermarkButtonView from "./AddWatermarkButtonView";
+import Loader from "../../components/Loader";
+import AddWatermarkButton from "../../components/AddWatermarkButton";
 
 const WatermarkSettingsView = Backbone.View.extend({
   tagName: "span",
   className: "watermark-settings setting",
   template: '<label class="name">Watermark</label>',
 
-  _loaderView: new LoaderView(),
-  _buttonView: new AddWatermarkButtonView(),
+  _loaderView: new Loader(),
+  _addWatermarkButton: new AddWatermarkButton(),
 
   initialize({ image }) {
     this.image = image;
-    this._buttonView.setImage(image);
+    this._addWatermarkButton.setImage(image);
 
     this.render();
 
@@ -21,16 +21,16 @@ const WatermarkSettingsView = Backbone.View.extend({
   render() {
     this.$el.html(this.template);
 
-    this.el.append(this._buttonView.el);
+    this.el.append(this._addWatermarkButton.el);
     this.el.append(this._loaderView.el);
 
-    this._buttonView.on("loadingStart", () => {
+    this._addWatermarkButton.on("loadingStart", () => {
       this._loaderView.trigger("show");
     });
-    this._buttonView.on("loadingEnd", () => {
+    this._addWatermarkButton.on("loadingEnd", () => {
       this._loaderView.trigger("hide");
     });
-    this._buttonView.on("saveResult", (data) => {
+    this._addWatermarkButton.on("saveResult", (data) => {
       this._showResult(data);
     });
 

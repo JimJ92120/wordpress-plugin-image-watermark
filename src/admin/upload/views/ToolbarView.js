@@ -1,10 +1,10 @@
-import AddWatermarkButtonView from "../components/AddWatermarkButtonView";
+import AddWatermarkButton from "../components/AddWatermarkButton";
 
 // https://atimmer.github.io/wordpress-jsdoc/media_views_toolbar.js.html
 const { Toolbar } = wp.media.view;
 
 const ToolbarView = Toolbar.extend({
-  _watermarkButtonView: new AddWatermarkButtonView(),
+  _addWatermarkButtonView: new AddWatermarkButton(),
   _deleteButtonClassName: "delete-selected-button",
 
   initialize() {
@@ -13,10 +13,10 @@ const ToolbarView = Toolbar.extend({
     this.controller.on("select:activate", () => {
       this.el
         .querySelector(`.${this._deleteButtonClassName}`)
-        .before(this._watermarkButtonView.el);
+        .before(this._addWatermarkButtonView.el);
     });
     this.controller.on("select:deactivate", () => {
-      this._watermarkButtonView.el.remove();
+      this._addWatermarkButtonView.el.remove();
     });
   },
 });
