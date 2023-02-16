@@ -1,12 +1,14 @@
-import { generateAndSaveMarkedImage } from "../../watermark";
+import { generateAndSaveMarkedImage } from "../watermark";
 
-import "./style.scss";
+import LoaderView from "./LoaderView";
 
-const { Attachment } = wp.media.view;
+const { TwoColumn } = wp.media.view.Attachment.Details;
 
 // https://atimmer.github.io/wordpress-jsdoc/media_views_attachment_details-two-column.js.html
 const AttachmentDetailsView = () =>
-  Attachment.Details.TwoColumn.extend({
+  TwoColumn.extend({
+    _loaderView: new LoaderView(),
+
     events: {
       "click .image-watermark__btn": "addWatermark",
     },
@@ -14,12 +16,7 @@ const AttachmentDetailsView = () =>
     _watermarkTemplate: `<span class="image-watermark setting">
       <label class="name">Watermark</label>
       <button class="image-watermark__btn button button-small">Add Watermark</button>
-      <div class="image-watermark__loader">
-        <div class="image-watermark__loader-spinner"></div>
-      </div>
     </span>`,
-    _loaderClassName: "image-watermark__loader",
-    _loaderActiveClassName: "image-watermark__loader--active",
 
     template(view) {
       const template = wp.media.template("attachment-details-two-column")(view);
@@ -29,6 +26,14 @@ const AttachmentDetailsView = () =>
       this._appendImageWatermarkButton($dom);
 
       return $dom.innerHTML;
+    },
+
+    render() {
+      TwoColumn.prototype.render.apply(this, arguments);
+
+      this.el.append(this._loaderView.el);
+
+      return this;
     },
 
     _appendImageWatermarkButton($dom) {
@@ -47,18 +52,8 @@ const AttachmentDetailsView = () =>
       }
     },
 
-    _showLoader($loader) {
-      $loader.classList.add(this._loaderActiveClassName);
-      $loader.style.display = "block";
-    },
-
-    _hideLoader($loader) {
-      $loader.remove();
-    },
-
     async addWatermark() {
-      const $loader = document.querySelector(`.${this._loaderClassName}`);
-      this._showLoader($loader);
+      this._loaderView.$el.trigger("show");
 
       const { attributes: image } = this.model;
 
@@ -74,7 +69,7 @@ const AttachmentDetailsView = () =>
         this._showResult(result);
       });
 
-      this._hideLoader($loader);
+      this._loaderView.$el.trigger("hide");
     },
   });
 
