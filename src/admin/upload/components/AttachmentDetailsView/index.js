@@ -2,11 +2,11 @@ import { generateAndSaveMarkedImage } from "../../watermark";
 
 import "./style.scss";
 
-const { view } = wp.media;
+const { Attachment } = wp.media.view;
 
 // https://atimmer.github.io/wordpress-jsdoc/media_views_attachment_details-two-column.js.html
 const AttachmentDetailsView = () =>
-  view.Attachment.Details.TwoColumn.extend({
+  Attachment.Details.TwoColumn.extend({
     events: {
       "click .image-watermark__btn": "addWatermark",
     },
