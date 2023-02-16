@@ -1,21 +1,17 @@
-import { generateAndSaveMarkedImage } from "../watermark";
-
 import LoaderView from "./LoaderView";
+import AddWatermarkButtonView from "./AddWatermarkButtonView";
 
 const WatermarkSettingsView = Backbone.View.extend({
   tagName: "span",
   className: "watermark-settings setting",
-  template: `<label class="name">Watermark</label>
-    <button class="watermark-settings__add-btn button button-small">Add watermark</button>
-  `,
-  events: {
-    "click .watermark-settings__add-btn": "_addWatermark",
-  },
+  template: '<label class="name">Watermark</label>',
 
   _loaderView: new LoaderView(),
+  _buttonView: new AddWatermarkButtonView(),
 
-  initialize(model) {
-    this.model = model;
+  initialize({ image }) {
+    this.image = image;
+    this._buttonView.setImage(image);
 
     this.render();
 
@@ -25,7 +21,18 @@ const WatermarkSettingsView = Backbone.View.extend({
   render() {
     this.$el.html(this.template);
 
+    this.el.append(this._buttonView.el);
     this.el.append(this._loaderView.el);
+
+    this._buttonView.on("loadingStart", () => {
+      this._loaderView.trigger("show");
+    });
+    this._buttonView.on("loadingEnd", () => {
+      this._loaderView.trigger("hide");
+    });
+    this._buttonView.on("saveResult", (data) => {
+      this._showResult(data);
+    });
 
     return this;
   },
@@ -38,26 +45,6 @@ const WatermarkSettingsView = Backbone.View.extend({
     } else {
       alert("Encountered some issues. Image has not been created.");
     }
-  },
-
-  async _addWatermark() {
-    this._loaderView.$el.trigger("show");
-
-    const { attributes: image } = this.model;
-
-    await generateAndSaveMarkedImage(
-      {
-        url: image.originalImageURL ?? image.url,
-        height: image.height,
-        width: image.width,
-        title: image.title,
-      },
-      "png"
-    ).then((result) => {
-      this._showResult(result);
-    });
-
-    this._loaderView.$el.trigger("hide");
   },
 });
 

@@ -6,7 +6,15 @@ wp.media.view.Attachment.Details.TwoColumn = TwoColumn.extend({
   initialize() {
     TwoColumn.prototype.initialize.apply(this, arguments);
 
-    this._watermarkSettingsView = new WatermarkSettingsView(this.model);
+    const { attributes: image } = this.model;
+    this._watermarkSettingsView = new WatermarkSettingsView({
+      image: {
+        url: image.originalImageURL ?? image.url,
+        height: image.height,
+        width: image.width,
+        title: image.title,
+      },
+    });
 
     return this;
   },

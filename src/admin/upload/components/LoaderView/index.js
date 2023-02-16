@@ -1,35 +1,37 @@
 import "./style.scss";
 
-const LoaderView = Backbone.View.extend({
-  className: "loader",
-  tagName: "span",
-  template: '<div class="loader__spinner"></div>',
-  events: {
-    show: "_show",
-    hide: "_hide",
-  },
+const LoaderView = _.extend(
+  Backbone.View.extend({
+    className: "loader",
+    tagName: "span",
+    template: '<div class="loader__spinner"></div>',
 
-  _activeClassName: "loader--active",
+    _activeClassName: "loader--active",
 
-  initialize() {
-    this.render();
+    initialize() {
+      this.bind("show", this._show, this);
+      this.bind("hide", this._hide, this);
 
-    return this;
-  },
+      this.render();
 
-  render() {
-    this.$el.html(this.template);
+      return this;
+    },
 
-    return this;
-  },
+    render() {
+      this.$el.html(this.template);
 
-  _show() {
-    this.el.classList.add(this._activeClassName);
-  },
+      return this;
+    },
 
-  _hide() {
-    this.el.classList.remove(this._activeClassName);
-  },
-});
+    _show() {
+      this.el.classList.add(this._activeClassName);
+    },
+
+    _hide() {
+      this.el.classList.remove(this._activeClassName);
+    },
+  }),
+  Backbone.Events
+);
 
 export default LoaderView;
