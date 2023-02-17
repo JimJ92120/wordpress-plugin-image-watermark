@@ -6,7 +6,7 @@ const { Toolbar } = wp.media.view;
 const ToolbarView = () =>
   Toolbar.extend({
     initialize() {
-      Toolbar.prototype.initialize.apply(this, arguments);
+      Toolbar.prototype.initialize.apply(this);
 
       const { controller, selection } = this;
       this._watermarkButtonView = new ToolbarButton({
@@ -16,7 +16,7 @@ const ToolbarView = () =>
     },
 
     render() {
-      Toolbar.prototype.render.apply(this, arguments);
+      Toolbar.prototype.render.apply(this);
 
       this.controller.on("uploader:ready", () => {
         this.el
