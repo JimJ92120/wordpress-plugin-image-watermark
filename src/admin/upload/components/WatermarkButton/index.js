@@ -3,6 +3,7 @@ import WatermarkButtonView from "./WatermarkButtonView";
 import { generateAndSaveMarkedImage } from "./watermark";
 
 const { Events } = Backbone;
+
 class WatermarkButton extends _.extend(WatermarkButtonView, Events) {
   get events() {
     return {

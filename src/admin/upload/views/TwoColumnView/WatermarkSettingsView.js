@@ -1,5 +1,5 @@
 import Loader from "../../components/Loader";
-import AddWatermarkButton from "../../components/AddWatermarkButton";
+import WatermarkButton from "../../components/WatermarkButton";
 
 const WatermarkSettingsView = Backbone.View.extend({
   tagName: "span",
@@ -9,7 +9,7 @@ const WatermarkSettingsView = Backbone.View.extend({
   _loaderView: new Loader(),
 
   initialize({ model }) {
-    this._addWatermarkButton = new AddWatermarkButton({
+    this._watermarkButton = new WatermarkButton({
       selection: model,
     });
 
@@ -21,16 +21,16 @@ const WatermarkSettingsView = Backbone.View.extend({
   render() {
     this.$el.html(this.template);
 
-    this.el.append(this._addWatermarkButton.el);
+    this.el.append(this._watermarkButton.el);
     this.el.append(this._loaderView.el);
 
-    this._addWatermarkButton.on("loadingStart", () => {
+    this._watermarkButton.on("loadingStart", () => {
       this._loaderView.trigger("show");
     });
-    this._addWatermarkButton.on("loadingEnd", () => {
+    this._watermarkButton.on("loadingEnd", () => {
       this._loaderView.trigger("hide");
     });
-    this._addWatermarkButton.on("saveResult", (data) => {
+    this._watermarkButton.on("saveResult", (data) => {
       this._showResult(data);
     });
 

@@ -1,6 +1,6 @@
-import AddWatermarkButton from "../../components/AddWatermarkButton";
+import WatermarkButton from "../../components/WatermarkButton";
 
-class ToolbarButton extends AddWatermarkButton {
+class ToolbarButton extends WatermarkButton {
   get className() {
     return super.className + " button-primary hidden";
   }
