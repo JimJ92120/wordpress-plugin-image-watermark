@@ -1,4 +1,4 @@
-import { fetchImageById, fetchSettings, saveImage } from "./api";
+import { fetchImageById, fetchSettings, saveImage } from "../../api";
 import { generateCanvas } from "./canvas";
 
 const getCanvasBlob = async (
