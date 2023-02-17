@@ -1,9 +1,17 @@
 import WatermarkButton from "../../components/WatermarkButtonWithLoader";
 
-const WatermarkSettings = Backbone.View.extend({
-  tagName: "span",
-  className: "watermark-settings setting",
-  template: '<label class="name">Watermark</label>',
+const { View } = Backbone;
+
+class WatermarkSettings extends View {
+  get tagName() {
+    return "span";
+  }
+  get className() {
+    return "watermark-settings setting";
+  }
+  get template() {
+    return '<label class="name">Watermark</label>';
+  }
 
   initialize({ model }) {
     this._watermarkButton = new WatermarkButton({
@@ -13,7 +21,7 @@ const WatermarkSettings = Backbone.View.extend({
     this.render();
 
     return this;
-  },
+  }
 
   render() {
     this.$el.html(this.template);
@@ -21,7 +29,7 @@ const WatermarkSettings = Backbone.View.extend({
     this.el.append(this._watermarkButton.el);
 
     return this;
-  },
-});
+  }
+}
 
 export default WatermarkSettings;
