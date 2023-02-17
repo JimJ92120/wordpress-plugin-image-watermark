@@ -1,4 +1,6 @@
-import AddWatermarkButton from "../../components/AddWatermarkButton";
+import AddWatermarkButton, {
+  generateAndSaveMarkedImage,
+} from "../../components/AddWatermarkButton";
 
 const WatermarkButton = AddWatermarkButton.extend({
   initialize({ controller, selection }) {
@@ -16,15 +18,31 @@ const WatermarkButton = AddWatermarkButton.extend({
     return this;
   },
 
-  click() {
-    console.log("new btnn");
+  async click() {
+    if (this.selection.length > 0) {
+      const promises = this.selection.models.map(({ attributes }) =>
+        generateAndSaveMarkedImage(
+          {
+            url: attributes.url,
+            title: attributes.title,
+            height: attributes.height,
+            width: attributes.width,
+          },
+          "png"
+        )
+      );
+
+      const result = await Promise.all(promises, (result) => result);
+
+      console.log(result);
+    }
   },
 
   _addStatesEvents() {
     this.el.classList.add("button-primary");
     this._hide();
 
-    this.controller.on("all", (event) => console.log("name", event));
+    // this.controller.on("all", (event) => console.log("name", event));
 
     this.controller.on("select:activate", () => {
       this._show();

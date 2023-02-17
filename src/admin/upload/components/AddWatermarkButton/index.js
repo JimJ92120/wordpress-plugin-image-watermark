@@ -31,7 +31,6 @@ const AddWatermarkButton = _.extend(
     },
 
     async click() {
-      console.log("test");
       if (this.image) {
         this.trigger("loadingStart");
 
@@ -46,3 +45,5 @@ const AddWatermarkButton = _.extend(
 );
 
 export default AddWatermarkButton;
+
+export { generateAndSaveMarkedImage };
