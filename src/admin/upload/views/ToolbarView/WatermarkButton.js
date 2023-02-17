@@ -22,6 +22,22 @@ const WatermarkButton = AddWatermarkButton.extend({
     return this;
   },
 
+  _showResult(result) {
+    if (result) {
+      if (0 === result.length) {
+        alert("no image selected");
+      } else {
+        const validResult = result.filter((image) => image);
+
+        alert(`${validResult.length} / ${result.length} images added.`);
+      }
+
+      this.selection.reset();
+    } else {
+      alert("Encountered some issues. Image has not been created.");
+    }
+  },
+
   _addStatesEvents() {
     this.controller.on("select:activate", () => {
       this._show();
@@ -41,6 +57,14 @@ const WatermarkButton = AddWatermarkButton.extend({
 
     this.controller.on("select:deactivate", () => {
       this._hide();
+    });
+
+    this.selection.on("reset", (e) => {
+      this._disable();
+    });
+
+    this.on("saveResult", (data) => {
+      this._showResult(data);
     });
   },
 
