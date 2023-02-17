@@ -1,4 +1,4 @@
-import WatermarkSettingsView from "./WatermarkSettingsView";
+import WatermarkSettings from "./WatermarkSettings";
 
 // https://atimmer.github.io/wordpress-jsdoc/media_views_attachment_details-two-column.js.html
 const { TwoColumn } = wp.media.view.Attachment.Details;
@@ -6,9 +6,9 @@ const { TwoColumn } = wp.media.view.Attachment.Details;
 const TwoColumnView = () =>
   TwoColumn.extend({
     initialize() {
-      TwoColumn.prototype.initialize.apply(this, arguments);
+      TwoColumn.prototype.initialize.apply(this);
 
-      this._watermarkSettingsView = new WatermarkSettingsView({
+      this._watermarkSettingsView = new WatermarkSettings({
         model: this.model,
       });
 
@@ -16,7 +16,7 @@ const TwoColumnView = () =>
     },
 
     render() {
-      TwoColumn.prototype.render.apply(this, arguments);
+      TwoColumn.prototype.render.apply(this);
 
       this.el
         .querySelector(".settings")

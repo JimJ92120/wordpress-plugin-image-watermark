@@ -32,10 +32,7 @@ class WatermarkButton extends _.extend(WatermarkButtonView, Events) {
   }
 
   async click() {
-    console.log("clicked");
-
     if (this.selection) {
-      console.log("start");
       this.trigger("loadingStart");
 
       const result = await (this.isSingle
@@ -44,8 +41,6 @@ class WatermarkButton extends _.extend(WatermarkButtonView, Events) {
 
       this.trigger("saveResult", result);
       this.trigger("loadingEnd");
-
-      console.log("end", result);
     }
   }
 

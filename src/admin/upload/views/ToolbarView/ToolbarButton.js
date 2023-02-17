@@ -1,4 +1,4 @@
-import WatermarkButton from "../../components/WatermarkButton";
+import WatermarkButton from "../../components/WatermarkButtonWithLoader";
 
 class ToolbarButton extends WatermarkButton {
   get className() {
@@ -33,27 +33,7 @@ class ToolbarButton extends WatermarkButton {
       this.selection.on("reset", (e) => {
         this._disable();
       });
-
-      this.on("saveResult", (data) => {
-        this._showResult(data);
-      });
     });
-  }
-
-  _showResult(result) {
-    if (result) {
-      if (0 === result.length) {
-        alert("no image selected");
-      } else {
-        const validResult = result.filter((image) => image);
-
-        alert(`${validResult.length} / ${result.length} images added.`);
-      }
-
-      this.selection.reset();
-    } else {
-      alert("Encountered some issues. Image has not been created.");
-    }
   }
 
   _hide() {
