@@ -1,4 +1,4 @@
-import WatermarkButton from "./WatermarkButton";
+import ToolbarButton from "./ToolbarButton";
 
 // https://atimmer.github.io/wordpress-jsdoc/media_views_toolbar.js.html
 const { Toolbar } = wp.media.view;
@@ -9,7 +9,7 @@ const ToolbarView = () =>
       Toolbar.prototype.initialize.apply(this, arguments);
 
       const { controller, selection } = this;
-      this._watermarkButtonView = new WatermarkButton({
+      this._watermarkButtonView = new ToolbarButton({
         controller,
         selection,
       });
