@@ -4,16 +4,19 @@ import AddWatermarkButton, {
 
 const WatermarkButton = AddWatermarkButton.extend({
   initialize({ controller, selection }) {
-    AddWatermarkButton.prototype.initialize.apply(this, arguments);
-
     this.controller = controller;
     this.selection = selection;
+
+    AddWatermarkButton.prototype.initialize.apply(this);
+
+    this._addStatesEvents();
   },
 
   render() {
     AddWatermarkButton.prototype.render.apply(this);
 
-    this._addStatesEvents();
+    this.el.classList.add("button-primary");
+    this._hide();
 
     return this;
   },
@@ -39,11 +42,6 @@ const WatermarkButton = AddWatermarkButton.extend({
   },
 
   _addStatesEvents() {
-    this.el.classList.add("button-primary");
-    this._hide();
-
-    // this.controller.on("all", (event) => console.log("name", event));
-
     this.controller.on("select:activate", () => {
       this._show();
 
@@ -59,6 +57,7 @@ const WatermarkButton = AddWatermarkButton.extend({
         }
       });
     });
+
     this.controller.on("select:deactivate", () => {
       this._hide();
     });
