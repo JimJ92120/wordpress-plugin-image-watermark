@@ -3,9 +3,10 @@ import AddWatermarkButton, {
 } from "../../components/AddWatermarkButton";
 
 const WatermarkButton = AddWatermarkButton.extend({
-  initialize({ controller, selection }) {
-    this.controller = controller;
-    this.selection = selection;
+  initialize(props) {
+    this.controller = props.controller;
+    this.selection = props.selection;
+    this.isSingle = false;
 
     AddWatermarkButton.prototype.initialize.apply(this);
 
@@ -19,26 +20,6 @@ const WatermarkButton = AddWatermarkButton.extend({
     this._hide();
 
     return this;
-  },
-
-  async click() {
-    if (this.selection.length > 0) {
-      const promises = this.selection.models.map(({ attributes }) =>
-        generateAndSaveMarkedImage(
-          {
-            url: attributes.url,
-            title: attributes.title,
-            height: attributes.height,
-            width: attributes.width,
-          },
-          "png"
-        )
-      );
-
-      const result = await Promise.all(promises, (result) => result);
-
-      console.log(result);
-    }
   },
 
   _addStatesEvents() {
