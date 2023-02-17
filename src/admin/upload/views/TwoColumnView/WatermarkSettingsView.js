@@ -7,11 +7,11 @@ const WatermarkSettingsView = Backbone.View.extend({
   template: '<label class="name">Watermark</label>',
 
   _loaderView: new Loader(),
-  _addWatermarkButton: new AddWatermarkButton(),
 
-  initialize({ image }) {
-    this.image = image;
-    this._addWatermarkButton.setImage(image);
+  initialize({ model }) {
+    this._addWatermarkButton = new AddWatermarkButton({
+      selection: model,
+    });
 
     this.render();
 

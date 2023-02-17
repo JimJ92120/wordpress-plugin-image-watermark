@@ -1,31 +1,44 @@
-import AddWatermarkButton from "../../components/AddWatermarkButton";
+import AddWatermarkButton, {
+  generateAndSaveMarkedImage,
+} from "../../components/AddWatermarkButton";
 
 const WatermarkButton = AddWatermarkButton.extend({
-  initialize({ controller, selection }) {
-    AddWatermarkButton.prototype.initialize.apply(this, arguments);
+  initialize(props) {
+    this.controller = props.controller;
+    this.selection = props.selection;
+    this.isSingle = false;
 
-    this.controller = controller;
-    this.selection = selection;
+    AddWatermarkButton.prototype.initialize.apply(this);
+
+    this._addStatesEvents();
   },
 
   render() {
     AddWatermarkButton.prototype.render.apply(this);
 
-    this._addStatesEvents();
+    this.el.classList.add("button-primary");
+    this._hide();
 
     return this;
   },
 
-  click() {
-    console.log("new btnn");
+  _showResult(result) {
+    if (result) {
+      if (0 === result.length) {
+        alert("no image selected");
+      } else {
+        const validResult = result.filter((image) => image);
+
+        alert(`${validResult.length} / ${result.length} images added.`);
+      }
+
+      this.selection.reset();
+    } else {
+      alert("Encountered some issues. Image has not been created.");
+    }
   },
 
   _addStatesEvents() {
-    this.el.classList.add("button-primary");
-    this._hide();
-
-    this.controller.on("all", (event) => console.log("name", event));
-
     this.controller.on("select:activate", () => {
       this._show();
 
@@ -41,8 +54,17 @@ const WatermarkButton = AddWatermarkButton.extend({
         }
       });
     });
+
     this.controller.on("select:deactivate", () => {
       this._hide();
+    });
+
+    this.selection.on("reset", (e) => {
+      this._disable();
+    });
+
+    this.on("saveResult", (data) => {
+      this._showResult(data);
     });
   },
 
