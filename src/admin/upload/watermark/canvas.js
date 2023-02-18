@@ -96,16 +96,26 @@ const generateCanvas = async (
   $canvas.width = imageSize[0];
   $canvas.height = imageSize[1];
 
-  context.drawImage($image, 0, 0, imageSize[0], imageSize[1]);
-  context.drawImage(
-    $watermark,
-    translatedWatermarkPosition[0],
-    translatedWatermarkPosition[1],
-    watermarkSize[0],
-    watermarkSize[1]
-  );
+  return new Promise((resolve) => {
+    context.drawImage($image, 0, 0, imageSize[0], imageSize[1]);
+    context.drawImage(
+      $watermark,
+      translatedWatermarkPosition[0],
+      translatedWatermarkPosition[1],
+      watermarkSize[0],
+      watermarkSize[1]
+    );
 
-  return $canvas;
+    resolve($canvas);
+  });
 };
 
-export { generateCanvas };
+const getCanvasBlob = async ($canvas, extension) => {
+  return new Promise((resolve) => {
+    $canvas.toBlob(async (blob) => {
+      resolve(blob);
+    }, `image/${extension}`);
+  }).then((blob) => blob);
+};
+
+export { getCanvasBlob, generateCanvas };

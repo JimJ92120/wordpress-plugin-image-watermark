@@ -1,7 +1,6 @@
 <?php
 namespace ImageWatermark\Upload;
 
-
 function enqueue_upload_assets() {
     $current_screen = get_current_screen();
     $options_page_id = 'upload';
@@ -16,7 +15,7 @@ function enqueue_upload_assets() {
             'image-watermark-upload-js',
             IMAGE_WATERMARK_URL . 'build/admin/upload/index.js',
             // ,
-            array_merge($assets_file['dependencies'], ['jquery', 'wp-api']),
+            array_merge($assets_file['dependencies'], ['jquery']),
             $assets_file['version'],
             true
         );

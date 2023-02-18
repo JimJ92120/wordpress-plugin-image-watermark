@@ -1,6 +1,6 @@
 import WatermarkButtonView from "./WatermarkButtonView";
 
-import { generateAndSaveMarkedImage } from "./watermark";
+import { generateAndSaveMarkedImage } from "../../watermark";
 
 const { Events } = Backbone;
 
