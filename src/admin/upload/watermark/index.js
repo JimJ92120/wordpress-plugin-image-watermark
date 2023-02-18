@@ -1,4 +1,4 @@
-import { fetchWatermarkImage, saveImage } from "../../api";
+import { fetchWatermarkImage, saveImage } from "./api";
 import { generateCanvas, getCanvasBlob } from "./canvas";
 
 const getCanvas = async (
