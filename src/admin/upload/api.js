@@ -1,20 +1,14 @@
-const SettingsModel = wp.api.WPApiBaseModel.extend({
-  url: wpApiSettings.root + "wp/v2/settings",
-});
+import apiFetch from "@wordpress/api-fetch";
 
-const fetchSettings = async () => {
-  const settings = new SettingsModel();
-  await settings
-    .fetch({
-      headers: {
-        "X-WP-Nonce": wpApiSettings.nonce,
-      },
-    })
-    .then((settingsData) => {
-      settings.set(settingsData);
-    });
+const fetchSettings = () => {
+  return apiFetch({
+    path: "wp/v2/settings",
+    method: "GET",
+  }).catch((error) => {
+    console.error(error);
 
-  return settings.attributes;
+    return false;
+  });
 };
 
 const fetchImageById = (imageId) => {
@@ -27,6 +21,7 @@ const fetchImageById = (imageId) => {
 
 // replace with wp.api.models.Media.save()
 const saveImage = (imageBlob, imageName, extension) => {
+  // return false;
   return fetch(wp.api.utils.getRootUrl() + "/wp-json/wp/v2/media", {
     method: "POST",
     headers: {

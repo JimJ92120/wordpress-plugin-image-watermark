@@ -25,21 +25,26 @@ const getCanvasBlob = async (
 };
 
 const fetchWatermarkImage = async () => {
-  const { image_watermark_settings } = await fetchSettings();
-  const { image_id, position } = image_watermark_settings;
+  const settings = await fetchSettings();
 
-  return fetchImageById(image_id).then((response) => {
-    const { thumbnail } = response.media_details.sizes;
+  if (settings) {
+    const { image_id, position } = settings.image_watermark_settings;
 
-    return {
-      image: {
-        url: thumbnail.source_url,
-        height: thumbnail.height,
-        width: thumbnail.width,
-      },
-      position: Number(position),
-    };
-  });
+    return fetchImageById(image_id).then((response) => {
+      const { thumbnail } = response.media_details.sizes;
+
+      return {
+        image: {
+          url: thumbnail.source_url,
+          height: thumbnail.height,
+          width: thumbnail.width,
+        },
+        position: Number(position),
+      };
+    });
+  }
+
+  return false;
 };
 
 const generateAndSaveMarkedImage = async (image, extension) => {
