@@ -12,11 +12,14 @@ const fetchSettings = () => {
 };
 
 const fetchImageById = (imageId) => {
-  const model = new wp.api.models.Media({
-    id: imageId,
-  });
+  return apiFetch({
+    path: "wp/v2/media" + "/" + imageId,
+    method: "GET",
+  }).catch((error) => {
+    console.error(error);
 
-  return model.fetch();
+    return false;
+  });
 };
 
 // replace with wp.api.models.Media.save()

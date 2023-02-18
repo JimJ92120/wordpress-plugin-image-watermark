@@ -29,9 +29,10 @@ const fetchWatermarkImage = async () => {
 
   if (settings) {
     const { image_id, position } = settings.image_watermark_settings;
+    const image = await fetchImageById(image_id);
 
-    return fetchImageById(image_id).then((response) => {
-      const { thumbnail } = response.media_details.sizes;
+    if (image) {
+      const { thumbnail } = image.media_details.sizes;
 
       return {
         image: {
@@ -41,7 +42,7 @@ const fetchWatermarkImage = async () => {
         },
         position: Number(position),
       };
-    });
+    }
   }
 
   return false;
