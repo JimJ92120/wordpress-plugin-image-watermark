@@ -1,7 +1,7 @@
-import { fetchImageById, fetchSettings, saveImage } from "../../api";
-import { generateCanvas } from "./canvas";
+import { fetchWatermarkImage, saveImage } from "../../api";
+import { generateCanvas, getCanvasBlob } from "./canvas";
 
-const getCanvasBlob = async (
+const getCanvas = async (
   imageUrl,
   watermarkUrl,
   imageSize,
@@ -17,40 +17,12 @@ const getCanvasBlob = async (
     watermarkPosition
   );
 
-  return new Promise((resolve) => {
-    $canvas.toBlob(async (blob) => {
-      resolve(blob);
-    }, `image/${extension}`);
-  }).then((blob) => blob);
-};
-
-const fetchWatermarkImage = async () => {
-  const settings = await fetchSettings();
-
-  if (settings) {
-    const { image_id, position } = settings.image_watermark_settings;
-    const image = await fetchImageById(image_id);
-
-    if (image) {
-      const { thumbnail } = image.media_details.sizes;
-
-      return {
-        image: {
-          url: thumbnail.source_url,
-          height: thumbnail.height,
-          width: thumbnail.width,
-        },
-        position: Number(position),
-      };
-    }
-  }
-
-  return false;
+  return getCanvasBlob($canvas, extension);
 };
 
 const generateAndSaveMarkedImage = async (image, extension) => {
   const { image: watermakeImage, position } = await fetchWatermarkImage();
-  const markedImageBlob = await getCanvasBlob(
+  const markedImageBlob = await getCanvas(
     image.url,
     watermakeImage.url,
     [image.width, image.height],

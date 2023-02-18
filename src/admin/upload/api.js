@@ -22,6 +22,30 @@ const fetchImageById = (imageId) => {
   });
 };
 
+const fetchWatermarkImage = async () => {
+  const settings = await fetchSettings();
+
+  if (settings) {
+    const { image_id, position } = settings.image_watermark_settings;
+    const image = await fetchImageById(image_id);
+
+    if (image) {
+      const { thumbnail } = image.media_details.sizes;
+
+      return {
+        image: {
+          url: thumbnail.source_url,
+          height: thumbnail.height,
+          width: thumbnail.width,
+        },
+        position: Number(position),
+      };
+    }
+  }
+
+  return false;
+};
+
 // replace with wp.api.models.Media.save()
 const saveImage = (imageBlob, imageName, extension) => {
   // return false;
@@ -44,4 +68,4 @@ const saveImage = (imageBlob, imageName, extension) => {
     .catch((error) => console.error(error));
 };
 
-export { fetchImageById, fetchSettings, saveImage };
+export { fetchWatermarkImage, saveImage };
