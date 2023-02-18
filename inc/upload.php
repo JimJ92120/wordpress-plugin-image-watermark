@@ -1,7 +1,6 @@
 <?php
 namespace ImageWatermark\Upload;
 
-
 function enqueue_upload_assets() {
     $current_screen = get_current_screen();
     $options_page_id = 'upload';
